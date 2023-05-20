@@ -14,14 +14,25 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater) //функция, которая на базе верстки выдувает наш интерфейс. layoutInflater - занимается выдуванием компонентов
         setContentView(binding.root) //у любого binding есть специальная переменная root, которая всегда указывает на корневой элемент этого биндинга(ActivityMainBinding)
 
+
+
         val post = Post(
             id = 1,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
             published = "21 мая в 18:36",
             likedByMe = false,
-            sharedByMe = false
+            sharedByMe = false,
+            likes = 10,
+            shares = 9999,
+            views = 1000000
+
         )
+
+        binding.shareCount?.text = formatNumber(post.shares)
+        binding.likeCount?.text = formatNumber(post.likes)
+        binding.viewsCount?.text = formatNumber(post.views)
+
 
         with(binding) {
             author.text = post.author
@@ -53,13 +64,11 @@ class MainActivity : AppCompatActivity() {
 
             share?.setOnClickListener { //данный код настраивает обработчик клика для элемента share.
                 Log.d("stuff", "share")
-                post.sharedByMe = !post.likedByMe //значение свойства sharedByMe объекта post инвертируется. Если оно было true, то становится false, и наоборот.
+                post.sharedByMe = !post.sharedByMe //значение свойства sharedByMe объекта post инвертируется. Если оно было true, то становится false, и наоборот.
                 if (post.sharedByMe) post.shares++ else post.shares-- //увеличивается или уменьшается значение свойства shares объекта post, в зависимости от значения sharedByMe. Если sharedByMe равно true, то значение shares увеличивается на 1, иначе - уменьшается на 1.
                 shareCount?.text = formatNumber(post.shares)
 
-
             }
-
 
         }
 
