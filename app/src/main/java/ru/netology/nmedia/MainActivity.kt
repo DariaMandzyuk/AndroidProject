@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             likedByMe = false,
             sharedByMe = false,
             likes = 10,
-            shares = 9999,
+            shares = 9,
             views = 1000000
 
         )
@@ -62,12 +62,11 @@ class MainActivity : AppCompatActivity() {
                 likeCount?.text = formatNumber(post.likes)
             }
 
-            share?.setOnClickListener { //данный код настраивает обработчик клика для элемента share.
+            share?.setOnClickListener {
                 Log.d("stuff", "share")
-                post.sharedByMe = !post.sharedByMe //значение свойства sharedByMe объекта post инвертируется. Если оно было true, то становится false, и наоборот.
-                if (post.sharedByMe) post.shares++ else post.shares-- //увеличивается или уменьшается значение свойства shares объекта post, в зависимости от значения sharedByMe. Если sharedByMe равно true, то значение shares увеличивается на 1, иначе - уменьшается на 1.
+                post.sharedByMe = !post.sharedByMe
+                post.shares++
                 shareCount?.text = formatNumber(post.shares)
-
             }
 
         }
