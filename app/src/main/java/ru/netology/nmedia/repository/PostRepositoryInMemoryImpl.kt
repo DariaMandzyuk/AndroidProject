@@ -1,10 +1,13 @@
 package ru.netology.nmedia.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
 
 class PostRepositoryInMemoryImpl: PostRepository {
+    //реализация интерфейса, в которой пост храниться в переменной post
+    //в классе также есть свойство типа MutableLiveData куда записана переменная post
+    //функция get возвращает эту переменную, то есть отдает пост
+    //функция like создает копию поста у которого изменено поле likedByMe, и записывает измененный пост в переменную data в свойство value
 
     private var post = Post(
         id = 1,
@@ -13,7 +16,9 @@ class PostRepositoryInMemoryImpl: PostRepository {
         published = "21 мая в 18:36",
         likedByMe = false,
         sharedByMe = false,
-        likes = 0
+        likes = 999,
+        shares = 99,
+        views = 1300000
     )
 
     private val data = MutableLiveData(post) // MutableLiveData - данные за которыми можно наблюдать. В конструктор ( ) ему передается начальное значение этих данных
@@ -26,5 +31,9 @@ class PostRepositoryInMemoryImpl: PostRepository {
     }
     // раньше мы все данные хранили в одном и том же посте, мы его обновляли и отображали, а сейчас на каждое обновление данных мы создаем новый экземпляр класса пост
     // оператор ! - это инвертирование Boolean переменной. Если было true, то вернет false. Если было false, то вернет true
+    override fun share() { //будет изменять пост
+        post = post.copy(sharedByMe = !post.sharedByMe, shares = post.shares + 1)
+        data.value = post
+    }
 
 }

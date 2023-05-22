@@ -8,4 +8,5 @@ class PostViewModel: ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl() //создаем переменную repository типа PostRepository и записываем туда конкретную реализацию PostRepositoryInMemoryImpl()
     val data = repository.get() // объявляем свойство data и оно будет ссылаться на данные из repository(через метод get)
     fun like() = repository.like()
+    fun share() = repository.share()
 }

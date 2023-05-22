@@ -2,7 +2,7 @@ package ru.netology.nmedia.dto
 
 object PostService {
 
-    fun formatNumber(number: Int): String { //принимает число, возвращает строку
+    fun formatNumber(number: Int): String {
         return when {
             number in 1000..9999 -> {
                 val hundreds = (number / 100) % 10
