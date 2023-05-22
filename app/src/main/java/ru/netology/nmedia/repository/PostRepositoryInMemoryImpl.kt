@@ -21,10 +21,10 @@ class PostRepositoryInMemoryImpl: PostRepository {
     override fun get() = data //будет возвращать переменную data
 
     override fun like() { //будет изменять пост
-        post = post.copy(likedByMe = !post.likedByMe) //post является датаклассом со значениями val, поэтому, чтобы изменить какое-то значение, нам нужно создать копию
+        post = post.copy(likedByMe = !post.likedByMe, likes = if(post.likedByMe) post.likes - 1 else post.likes + 1) //post является датаклассом со значениями val, поэтому, чтобы изменить какое-то значение, нам нужно создать копию
         data.value = post //в переменную data записываем новое значение.
     }
-
+    // раньше мы все данные хранили в одном и том же посте, мы его обновляли и отображали, а сейчас на каждое обновление данных мы создаем новый экземпляр класса пост
     // оператор ! - это инвертирование Boolean переменной. Если было true, то вернет false. Если было false, то вернет true
 
 }
