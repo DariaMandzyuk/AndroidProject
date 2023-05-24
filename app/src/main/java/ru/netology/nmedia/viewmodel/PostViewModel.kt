@@ -6,7 +6,7 @@ import ru.netology.nmedia.repository.PostRepositoryInMemoryImpl
 
 class PostViewModel: ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl() //создаем переменную repository типа PostRepository и записываем туда конкретную реализацию PostRepositoryInMemoryImpl()
-    val data = repository.get() // объявляем свойство data и оно будет ссылаться на данные из repository(через метод get)
-    fun like() = repository.like()
-    fun share() = repository.share()
+    val data = repository.getAll() //
+    fun likeById(id: Long) = repository.likeById(id)
+    fun shareById(id: Long) = repository.shareById(id)
 }
