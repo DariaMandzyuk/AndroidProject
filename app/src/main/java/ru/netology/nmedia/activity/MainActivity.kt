@@ -17,29 +17,7 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    val viewModel: PostViewModel by viewModels() //получаем viewmodel
-
-//    val interaction: OnInteractionListener = object : OnInteractionListener {
-//        override fun onEdit(post: Post) {
-//            viewModel.edit(post)
-//        }
-//
-//        override fun onCancelEdit(post: Post) {
-//            viewModel.cancelEdit()
-//        }
-//
-//        override fun onLike(post: Post) {
-//            viewModel.likeById(post.id)
-//        }
-//
-//        override fun onRemove(post: Post) {
-//            viewModel.removeById(post.id)
-//        }
-//
-//        override fun onShare(post: Post) {
-//            viewModel.shareById(post.id)
-//        }
-//    }
+    val viewModel: PostViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,46 +62,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.save.setOnClickListener { //вешаем обработчик на кнопку save
-            with(binding.content) {
-                if (text.isNullOrBlank()) { //проверяем, чтобы текст не был пустым
-                    Toast.makeText( //если пустой - показываем всплывашкуошибку
-                        this@MainActivity,
-                        context.getString(R.string.error_empty_content),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-
-                viewModel.changeContent(text.toString()) //вызываем во вью модели changeContent и в него передаем текст
-                viewModel.save() //след шагом даем команду save. save разберется, если текст новый - добавит, если редактируемый - отредактирует
-
-                setText("") // после того как сохранили, то очищаем все, строку ввода, фокус
-                clearFocus()
-                binding.groupCancelEdit.visibility = View.GONE
-                AndroidUtils.hideKeyboard(this)
-            }
-        }
-
-        binding.undoButton.setOnClickListener {
-            with(binding.groupCancelEdit) {
-                viewModel.cancelEdit()
-                Toast.makeText(
-                    this@MainActivity,
-                    context.getString(R.string.editing_cancelled),
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                binding.content.setText("")
-                clearFocus()
-                binding.groupCancelEdit.visibility = View.GONE
-                AndroidUtils.hideKeyboard(this)
-
-                return@setOnClickListener
-
-            }
-
-        }
 
         viewModel.edited.observe(this) { post ->
             if (post.id == 0L) {
