@@ -50,12 +50,11 @@ fun bind(post: Post) { // фун bind связывает данные с наш�
         author.text = post.author
         published.text = post.published
         content.text = post.content
-        likeCount.text = formatNumber(post.likes)
-        shareCount.text = formatNumber(post.shares)
+        share.text = formatNumber(post.shares)
         viewsCount.text = formatNumber(post.views)
-        like.setImageResource(
-            if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24
-        )
+        like.isChecked = post.likedByMe
+        like.text = "${formatNumber(post.likes)}"
+
 
         menu.setOnClickListener {
             PopupMenu(it.context, it).apply {
