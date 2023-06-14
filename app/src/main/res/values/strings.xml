@@ -13,5 +13,8 @@
     <string name="editing_cancelled">Editing cancelled</string>
     <string name="description_post_edit_cancel">Cancel</string>
     <string name="edit_message">Edit Post</string>
-
+    <string name="chooser_share_post">Share post</string>
+    <string name="add_post">Add post</string>
+    <string name="save">Save</string>
+    <string name="chooser_video">Select a player</string>
 </resources>

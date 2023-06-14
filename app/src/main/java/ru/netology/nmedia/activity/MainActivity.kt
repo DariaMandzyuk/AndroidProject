@@ -1,8 +1,16 @@
 package ru.netology.nmedia.activity
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.Context
+import android.content.pm.ResolveInfo
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.Group
@@ -19,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     val viewModel: PostViewModel by viewModels()
 
+    lateinit var newPostLauncher: ActivityResultLauncher<Unit>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -27,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
+                (newPostLauncher.contract as NewPostResultContract).content = post.content
+                newPostLauncher.launch()
             }
 
             override fun onCancelEdit(post: Post) {
@@ -42,80 +54,43 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onShare(post: Post) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                }
+
+                val chooser = Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                startActivity(chooser)
+
                 viewModel.shareById(post.id)
+            }
+
+            override fun onVideo(post: Post) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                val chooser = Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                startActivity(chooser)
             }
         })
         binding.list.adapter = adapter
-
         viewModel.data.observe(this) { posts ->
-            adapter.submitList(posts) //после обновления сработает метод observe у data, присвоит это submitList и обновит на экране
+            adapter.submitList(posts)
         }
 
-        viewModel.edited.observe(this) { post ->
-            if (post.id == 0L) {
-                return@observe
-            }
-            with(binding.content) {
-                requestFocus()
-                setText(post.content)
-                binding.groupCancelEdit.visibility = View.VISIBLE
+        newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
+            if (result != null) {
+                viewModel.changeContent(result)
+                viewModel.save()
             }
         }
 
-
-        viewModel.edited.observe(this) { post ->
-            if (post.id == 0L) {
-                return@observe
-            }
-            with(binding.content) {
-                requestFocus()
-                setText(post.content)
-                binding.groupCancelEdit.visibility = View.VISIBLE
-            }
+        binding.add.setOnClickListener {
+            (newPostLauncher.contract as NewPostResultContract).content = ""
+            newPostLauncher.launch()
         }
 
-        binding.save.setOnClickListener { //вешаем обработчик на кнопку save
-            with(binding.content) {
-                if (text.isNullOrBlank()) { //проверяем, чтобы текст не был пустым
-                    Toast.makeText( //если пустой - показываем всплывашкуошибку
-                        this@MainActivity,
-                        context.getString(R.string.error_empty_content),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-
-                viewModel.changeContent(text.toString()) //вызываем во вью модели changeContent и в него передаем текст
-                viewModel.save() //след шагом даем команду save. save разберется, если текст новый - добавит, если редактируемый - отредактирует
-
-                setText("") // после того как сохранили, то очищаем все, строку ввода, фокус
-                clearFocus()
-                binding.groupCancelEdit.visibility = View.GONE
-                AndroidUtils.hideKeyboard(this)
-            }
-        }
-
-        binding.undoButton.setOnClickListener {
-            with(binding.groupCancelEdit) {
-                viewModel.cancelEdit()
-                Toast.makeText(
-                    this@MainActivity,
-                    context.getString(R.string.editing_cancelled),
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                binding.content.setText("")
-                clearFocus()
-                binding.groupCancelEdit.visibility = View.GONE
-                AndroidUtils.hideKeyboard(this)
-
-                return@setOnClickListener
-
-            }
-
-        }
     }
-}
 
+}
 
 
