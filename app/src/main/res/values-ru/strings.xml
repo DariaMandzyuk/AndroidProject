@@ -18,4 +18,5 @@
     <string name="add_post">Добавить пост</string>
     <string name="save">Сохранить</string>
     <string name="chooser_video">Выберите проигрыватель</string>
+    <string name="content_sent">Отправлено</string>
 </resources>

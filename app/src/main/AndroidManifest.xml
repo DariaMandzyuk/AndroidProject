@@ -8,10 +8,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NMedia">
-        <!--        <activity-->
-        <!--            android:name=".activity.EditPostActivity"-->
-        <!--            android:exported="false"-->
-        <!--            android:windowSoftInputMode="adjustResize"/>-->
         <activity
             android:name=".activity.NewPostActivity"
             android:exported="false"
@@ -25,6 +21,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="text/plain" />
+
             </intent-filter>
         </activity>
         <activity
@@ -35,7 +32,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
     </application>

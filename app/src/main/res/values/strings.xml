@@ -17,4 +17,5 @@
     <string name="add_post">Add post</string>
     <string name="save">Save</string>
     <string name="chooser_video">Select a player</string>
+    <string name="content_sent">Content sent</string>
 </resources>
