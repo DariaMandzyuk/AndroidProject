@@ -19,7 +19,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 999,
             shares = 99,
-            views = 1300000
+            views = 1300000,
+            video = "https://youtube.com/shorts/HqNcgLskf3w?feature=share"
         ),
         Post(
             id = nextId++,
@@ -29,7 +30,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 20000,
             shares = 500000000,
-            views = 89
+            views = 89,
+            video = null
         ),
         Post(
             id = nextId++,
@@ -39,7 +41,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 999,
             shares = 99,
-            views = 1300000
+            views = 1300000,
+            video = null
         ),
         Post(
             id = nextId++,
@@ -49,7 +52,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 109,
             shares = 88,
-            views = 130
+            views = 130,
+            video = null
         ),
         Post(
             id = nextId++,
@@ -59,7 +63,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 9,
             shares = 99,
-            views = 13
+            views = 13,
+            video = null
         ),
         Post(
             id = nextId++,
@@ -69,7 +74,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 1000,
             shares = 109,
-            views = 10
+            views = 10,
+            video = null
         ),
         Post(
             id = nextId++,
@@ -79,7 +85,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 1239,
             shares = 300000,
-            views = 1500000
+            views = 1500000,
+            video = null
         ),
         Post(
             id = nextId++,
@@ -89,7 +96,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 12000000,
             shares = 9,
-            views = 100
+            views = 100,
+            video = null
         ),
         Post(
             id = nextId++,
@@ -99,7 +107,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             likes = 9,
             shares = 999,
-            views = 130
+            views = 130,
+            video = null
         ),
     ).reversed()
 
@@ -113,13 +122,18 @@ class PostRepositoryInMemoryImpl : PostRepository {
             posts = listOf(
                 post.copy(
                     id = nextId++,
+                    author = "Me",
                     likedByMe = false,
+                    published = "now"
                 )
             ) + posts
-        } else {
-            posts = posts.map { //если id совпали, значит произошло редактирование
-                if (it.id != post.id) it else it.copy(content = post.content)
-            }
+            data.value = posts
+            return
+        }
+
+        posts = posts.map { //если id совпали, значит произошло редактирование
+            if (it.id != post.id) it else it.copy(content = post.content)
+
         }
         data.value = posts
     }
@@ -143,6 +157,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
         data.value = posts
     }
+
 
     fun likes(post: Post): Int {
         return if (post.likedByMe) post.likes - 1 else post.likes + 1
