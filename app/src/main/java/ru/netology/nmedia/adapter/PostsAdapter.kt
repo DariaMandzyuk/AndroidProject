@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
-import ru.netology.nmedia.activity.MainActivity
+import ru.netology.nmedia.activity.FeedFragment
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.PostService.formatNumber
@@ -22,20 +22,16 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 interface OnInteractionListener {
     fun onLike(post: Post) {}
     fun onRemove(post: Post) {}
-
     fun onShare(post: Post) {}
     fun onEdit(post: Post) {}
-
-    fun onCancelEdit(post: Post) {}
-
     fun onVideo(post: Post) {}
+    fun onClickToNewPost(post: Post) {}
 }
 
 
 class PostsAdapter(
     private val onInteractionListener: OnInteractionListener,
 ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) { //отнаследовали от листадаптер(потому что он умеет работать с данными типа лист)
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -108,13 +104,14 @@ class PostViewHolder(
             share.setOnClickListener {
                 onInteractionListener.onShare(post)
             }
-
             video.setOnClickListener {
                 onInteractionListener.onVideo(post)
             }
-
             videoButton.setOnClickListener {
                 onInteractionListener.onVideo(post)
+            }
+            root.setOnClickListener {
+                onInteractionListener.onClickToNewPost(post)
             }
 
         }
@@ -129,7 +126,6 @@ class PostDiffCallback :
     ): Boolean { // умеет сравнивать два листа и понимать что у них изменилось. то есть какая запись была в листе удалена, добавлена или отредактирована
         return oldItem.id == newItem.id // когда DiffUtil узнает какой элемент как изменился, он передает это в адаптер и адаптер сам принимает решение какую анимацию как применить
     }
-
     override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem == newItem
     }
