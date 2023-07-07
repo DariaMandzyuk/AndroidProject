@@ -10,7 +10,7 @@ class NewPostResultContract(
 ) : ActivityResultContract<Unit, String?>() {
 
     override fun createIntent(context: Context, input: Unit): Intent =
-        Intent(context, NewPostActivity::class.java).apply {
+        Intent(context, NewPostFragment::class.java).apply {
             putExtra(Intent.EXTRA_TEXT, content)
         }
 
