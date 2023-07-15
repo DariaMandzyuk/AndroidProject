@@ -29,7 +29,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
         edited.value = empty
     }
-
     fun edit(post: Post) {
         edited.value = post
     }
@@ -41,13 +40,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
         edited.value = edited.value?.copy(content = text)
     }
-
-
     fun likeById(id: Long) = repository.likeById(id)
     fun shareById(id: Long) = repository.shareById(id)
-
     fun removeById(id: Long) = repository.removeById(id)
-    fun cancelEdit() {
-        edited.value = empty
-    }
 }
