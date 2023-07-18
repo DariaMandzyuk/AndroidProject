@@ -111,6 +111,16 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
         )
     }
 
+    override fun shareById(id: Long) {
+        db.execSQL(
+            """
+           UPDATE posts SET
+               shares = shares +1 
+           WHERE id = ?;
+        """.trimIndent(), arrayOf(id)
+        )
+    }
+
     override fun removeById(id: Long) {
         db.delete(
             PostColumns.TABLE,
