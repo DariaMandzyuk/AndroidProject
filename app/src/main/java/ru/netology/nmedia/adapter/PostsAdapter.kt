@@ -55,7 +55,7 @@ class PostViewHolder(
     fun bind(post: Post) { // фун bind связывает данные с нашим интерфейсом который создан из верстки
         binding.apply {
             var videoLayout = videoGroup
-            if (post.video != null) {
+            if (!post.video.isNullOrBlank()) {
                 videoLayout.visibility = View.VISIBLE
             } else {
                 videoLayout.visibility = View.GONE
