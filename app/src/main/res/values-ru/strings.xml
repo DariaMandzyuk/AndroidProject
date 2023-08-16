@@ -19,4 +19,16 @@
     <string name="save">Сохранить</string>
     <string name="chooser_video">Выберите проигрыватель</string>
     <string name="content_sent">Отправлено</string>
+    <string name="google_play_unavailable">Google Api Недоступен</string>
+    <string name="notification_user_liked">Пользователь %1$s лайкнул %2$s\'s пост</string>
+    <string name="channel_remote_name">Сервер уведомлений</string>
+    <string name="channel_remote_description">Уведомления из удаленного сервера</string>
+    <string name="empty">Пусто</string>
+    <string name="errortext">Ошибка</string>
+    <string name="retry">Попробовать снова</string>
+    <string name="error">Ошибка</string>
+    <string name="network_error">Ошибка</string>
+    <string name="retry_loading">Попробовать снова</string>
+    <string name="empty_posts">Нет постов.\nЕсли вы создадите новый пост, он появится здесь</string>
+    <string name="error_loading">Что-то пошло не так. Попробуйте позже</string>
 </resources>

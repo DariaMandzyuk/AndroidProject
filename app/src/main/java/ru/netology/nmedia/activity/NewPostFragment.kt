@@ -20,7 +20,7 @@ class NewPostFragment : Fragment() {
     }
 
     private val viewModel: PostViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
+//        ownerProducer = ::requireParentFragment
     )
 
     override fun onCreateView(
@@ -40,12 +40,18 @@ class NewPostFragment : Fragment() {
             viewModel.changeContent(binding.edit.text.toString())
             viewModel.save()
             AndroidUtils.hideKeyboard(requireView())
+        }
+
+        viewModel.postCreated.observe(viewLifecycleOwner) {
+            viewModel.loadPosts()
             findNavController().navigateUp()
         }
 
-        viewModel.edited.observe(viewLifecycleOwner) { post->
-            binding.edit.setText(post.content)
-        }
+//        viewModel.edited.observe(viewLifecycleOwner) { post->
+//            viewModel.loadPosts()
+//            findNavController().navigateUp()
+////            binding.edit.setText(post.content)
+//        }
         return binding.root
     }
 }

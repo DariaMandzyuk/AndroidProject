@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
-import ru.netology.nmedia.activity.PostFragment.Companion.postId
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
@@ -19,20 +19,20 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
 
-    private val viewModel: PostViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: PostViewModel by viewModels()
+//        ownerProducer = ::requireParentFragment
 
-    var _binding: FragmentFeedBinding? = null
-    val binding: FragmentFeedBinding
-        get() = _binding!!
+
+//    var _binding: FragmentFeedBinding? = null
+//    val binding: FragmentFeedBinding
+//        get() = _binding!!
 
     override fun onCreateView( // у фрагмента нет своего инфлейтера, поэтому мы не можем к нему получить доступ
         inflater: LayoutInflater, // поэтому в функции onCreateView передается инфлейтер который умеет из верстки загружать весь наш интерфейс
         container: ViewGroup?, // передается контейнер внутри которого этот фрагмент крутится. контейнером выступает R.layout.activity_app
         savedInstanceState: Bundle? // если мы выходим из режима сохраненного состояния, то передается переменная savedInstanceState и Bundle как список параметров
     ): View {
-        _binding = FragmentFeedBinding.inflate(
+        val binding = FragmentFeedBinding.inflate(
             inflater,
             container,
             false
@@ -68,14 +68,21 @@ class FeedFragment : Fragment() {
                     Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 startActivity(shareIntent)
             }
-
-            override fun onClickToNewPost(post: Post) {
-                findNavController().navigate(R.id.action_feedFragment_to_postFragment,  Bundle().apply { postId = post.id })
-            }
         })
+
+//            override fun onClickToNewPost(post: Post) {
+////                findNavController().navigate(R.id.action_feedFragment_to_postFragment,  Bundle().apply { postId = post.id })
+//            }
         binding.list.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            adapter.submitList(posts)
+        viewModel.data.observe(viewLifecycleOwner) { state -> // подписывается и получает состояния
+            binding.errorGroup.isVisible = state.error
+            binding.emptyText.isVisible = state.empty
+            binding.progress.isVisible = state.loading
+            adapter.submitList(state.posts)
+        }
+
+        binding.retryButton.setOnClickListener {
+            viewModel.loadPosts()
         }
 
         binding.add.setOnClickListener {
@@ -87,9 +94,10 @@ class FeedFragment : Fragment() {
 
         return binding.root // это корневой элемент верстки нашего фрагмента activity.FeedFragment
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
+
