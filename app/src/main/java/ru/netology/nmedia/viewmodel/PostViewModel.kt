@@ -10,6 +10,7 @@ import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryImpl
 import ru.netology.nmedia.util.SingleLiveEvent
+import java.io.IOException
 import kotlin.concurrent.thread
 
 
@@ -77,7 +78,40 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = edited.value?.copy(content = text)
     }
 
-    fun likeById(id: Long) = repository.likeById(id)
+    fun likeById(id: Long) {
+        val old = _data.value?.posts.orEmpty()
+        thread {
+            try {
+                _data.postValue(
+                    _data.value?.copy(posts = _data.value?.posts.orEmpty()
+                        .map {
+                            if (it.id == id) repository.likeById(id) else it
+                        }
+                    )
+                )
+            } catch (e: IOException) {
+                _data.postValue(_data.value?.copy(posts = old))
+            }
+        }
+    }
+
+    fun unlikeById(id: Long) {
+        val old = _data.value?.posts.orEmpty()
+        thread {
+            try {
+                _data.postValue(
+                    _data.value?.copy(posts = _data.value?.posts.orEmpty()
+                        .map {
+                            if (it.id == id) repository.unlikeById(id) else it
+                        }
+                    )
+                )
+            } catch (e: IOException) {
+                _data.postValue(_data.value?.copy(posts = old))
+            }
+        }
+    }
+
     fun shareById(id: Long) = repository.shareById(id)
     fun removeById(id: Long) {
         thread {
