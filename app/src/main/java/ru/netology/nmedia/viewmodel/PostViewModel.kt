@@ -29,13 +29,9 @@ private val empty = Post(
 class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: PostRepository = PostRepositoryImpl()
-//        AppDb.getInstance(context = application).postDao
-
-
     private val _data = MutableLiveData(FeedModel())
     val data: LiveData<FeedModel> = _data
     val edited = MutableLiveData(empty)
-
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated: LiveData<Unit> = _postCreated
     init {
@@ -78,7 +74,15 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = edited.value?.copy(content = text)
     }
 
-    fun likeById(id: Long) {
+    fun likePost(post: Post) {
+        if (post.likedByMe) {
+            unlikeById(post.id)
+        } else {
+            likeById(post.id)
+        }
+    }
+
+    private fun likeById(id: Long) {
         val old = _data.value?.posts.orEmpty()
         thread {
             try {
@@ -95,7 +99,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun unlikeById(id: Long) {
+    private fun unlikeById(id: Long) {
         val old = _data.value?.posts.orEmpty()
         thread {
             try {

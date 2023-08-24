@@ -36,7 +36,7 @@ class NewPostFragment : Fragment() {
 
         arguments?.textArg?.let(binding.edit::setText)
 
-        binding.ok.setOnClickListener {
+        binding.ok.setOnClickListener { // вот здесь какая-то проблема судя по всему кнопка не срабатывает должным образом
             viewModel.changeContent(binding.edit.text.toString())
             viewModel.save()
             AndroidUtils.hideKeyboard(requireView())
@@ -52,6 +52,7 @@ class NewPostFragment : Fragment() {
 //            findNavController().navigateUp()
 ////            binding.edit.setText(post.content)
 //        }
+
         return binding.root
     }
 }

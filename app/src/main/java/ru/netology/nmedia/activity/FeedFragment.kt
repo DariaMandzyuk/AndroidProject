@@ -49,12 +49,7 @@ class FeedFragment : Fragment() {
             }
 
             override fun onLike(post: Post) {
-                viewModel.likeById(post.id)
-                if (post.likedByMe) {
-                    viewModel.unlikeById(post.id)
-                } else {
-                    viewModel.likeById(post.id)
-                }
+                viewModel.likePost(post)
             }
 
             override fun onRemove(post: Post) {
@@ -78,6 +73,7 @@ class FeedFragment : Fragment() {
 //            override fun onClickToNewPost(post: Post) {
 ////                findNavController().navigate(R.id.action_feedFragment_to_postFragment,  Bundle().apply { postId = post.id })
 //            }
+
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { state -> // подписывается и получает состояния
             binding.errorGroup.isVisible = state.error

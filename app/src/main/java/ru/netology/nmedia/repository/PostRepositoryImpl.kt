@@ -6,14 +6,11 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
 import java.util.concurrent.TimeUnit
 
 
-class PostRepositoryImpl(
-//    private val dao: PostDao
-) : PostRepository { // ременноо удалила конструктор у импл (postDao: PostDao)
+class PostRepositoryImpl : PostRepository { // ременноо удалила конструктор у импл (postDao: PostDao)
 
     private val client = OkHttpClient.Builder()
         .callTimeout(30, TimeUnit.SECONDS)
@@ -43,8 +40,8 @@ class PostRepositoryImpl(
 
     override fun likeById(id: Long): Post {
         val request = Request.Builder()
-            .delete()
-            .url("${BASE_URL}/api/slow/posts/$id")
+            .post("".toRequestBody())
+            .url("${BASE_URL}api/slow/posts/$id/likes")
             .build()
 
         return client.newCall(request)
@@ -58,7 +55,7 @@ class PostRepositoryImpl(
     override fun unlikeById(id: Long): Post {
         val request: Request = Request.Builder()
             .delete()
-            .url("${BASE_URL}/api/slow/posts/$id/likes")
+            .url("${BASE_URL}api/slow/posts/$id/likes")
             .build()
 
         return client.newCall(request)
@@ -76,7 +73,7 @@ class PostRepositoryImpl(
 
     override fun save(post: Post): Post {
         val request = Request.Builder()
-            .url("${BASE_URL}/api/slow/posts")
+            .url("${BASE_URL}api/slow/posts")
             .post(gson.toJson(post).toRequestBody(mediaType))
             .build()
 
@@ -92,7 +89,7 @@ class PostRepositoryImpl(
     override fun removeById(id: Long) {
         val request = Request.Builder()
             .delete()
-            .url("${BASE_URL}/api/slow/posts/$id")
+            .url("${BASE_URL}api/slow/posts/$id")
             .build()
 
         client.newCall(request)
