@@ -54,12 +54,30 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun save() {
         thread {
-        edited.value?.let {
-            repository.save(it)
-            _postCreated.postValue(Unit)
+            edited.value?.let { edited ->
+                val post = repository.save(edited)
+                val oldPosts = _data.value?.posts.orEmpty()
+                val newPosts = if (edited.id != 0L) {
+                    oldPosts.map { if (it.id == edited.id) post else it }
+                } else {
+                    listOf(post) + oldPosts
+                }
+                _data.postValue(
+                    _data.value?.copy(
+                        posts = newPosts
+                    )
+                )
+                _postCreated.postValue(Unit)
+            }
+            edited.postValue(empty)
         }
-        edited.postValue(empty)
-        }
+//        thread {
+//        edited.value?.let {
+//            repository.save(it)
+//            _postCreated.postValue(Unit)
+//        }
+//        edited.postValue(empty)
+//        }
     }
 
     fun edit(post: Post) {
