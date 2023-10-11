@@ -12,8 +12,8 @@ https://github.com/DariaMandzyuk/AndroidProject/assets/112636762/e47bb15c-f6ce-4
 - Функция подсчета лайков / Like counting function
 
 - Интенты на поделиться постом / Intents to share a post
-  
-![4747](https://github.com/DariaMandzyuk/AndroidProject/assets/112636762/77927347-bb52-4015-9d99-4df2f0f03b17)
+![7970](https://github.com/DariaMandzyuk/AndroidProject/assets/112636762/5265a2ba-2667-419b-96f9-69ff52eda718)
+
 
 - Настроено клиент серверное взаимодействие / Client-server interaction configured
 ![5959](https://github.com/DariaMandzyuk/AndroidProject/assets/112636762/80972d35-2443-45ac-a820-94c263b8eb1c)
