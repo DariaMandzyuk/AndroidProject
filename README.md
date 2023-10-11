@@ -1,14 +1,16 @@
 
 https://github.com/DariaMandzyuk/AndroidProject/assets/112636762/e47bb15c-f6ce-414a-8807-26c89c79a0c2
 
-## Приложение построено по архитектуре MVVM / The application is built using MVVM architecture
+## Возможности / Features
 
-## CRUD операции для постов / CRUD operations for posts
+- Приложение построено по архитектуре MVVM / The application is built using MVVM architecture
 
-## Функция подсчета лайков / Like counting function
+- CRUD операции для постов / CRUD operations for posts
 
-## Интенты на просмотр видео / Intents for watching videos
+- Функция подсчета лайков / Like counting function
 
-## Настроено клиент серверное взаимодействие / Client-server interaction configured
+- Интенты на просмотр видео / Intents for watching videos
+
+- Настроено клиент серверное взаимодействие / Client-server interaction configured
 
 
