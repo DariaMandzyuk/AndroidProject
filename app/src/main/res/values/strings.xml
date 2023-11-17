@@ -9,7 +9,6 @@
     <string name="menu_remove">Remove</string>
     <string name="post_text">Post Text</string>
     <string name="menu_edit">Edit</string>
-    <string name="error_empty_content">Content can\'t be empty</string>
     <string name="editing_cancelled">Editing cancelled</string>
     <string name="description_post_edit_cancel">Cancel</string>
     <string name="edit_message">Edit Post</string>
@@ -18,4 +17,18 @@
     <string name="save">Save</string>
     <string name="chooser_video">Select a player</string>
     <string name="content_sent">Content sent</string>
+    <string name="empty">Empty</string>
+    <string name="errortext">errorText</string>
+    <string name="retry">Retry</string>
+    <string name="error">Error</string>
+    <string name="network_error">Error</string>
+    <string name="retry_loading">Retry</string>
+    <string name="empty_posts">There are no posts.\nIf you create a new post, it will appear here</string>
+    <string name="error_loading">Something went wrong. Try again later</string>
+    <string name="google_play_unavailable">Google Api Unavailable</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="error_empty_content">Content can\'t be empty</string>
+
 </resources>
