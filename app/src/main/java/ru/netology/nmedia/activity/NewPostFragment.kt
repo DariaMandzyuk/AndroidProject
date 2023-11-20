@@ -37,9 +37,9 @@ class NewPostFragment : Fragment() {
 
         arguments?.textArg?.let(binding.edit::setText)
 
-        binding.ok.setOnClickListener { // вот здесь какая-то проблема судя по всему кнопка не срабатывает должным образом
+        binding.ok.setOnClickListener {
             viewModel.changeContent(binding.edit.text.toString())
-            viewModel.save()
+//            viewModel.saveAsync()
             AndroidUtils.hideKeyboard(requireView())
         }
 
